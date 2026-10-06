@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Checkout · Gleev</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#17245F">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="stylesheet" href="css/styles.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<div class="co-page">
+  <header class="co-head">
+    <a class="brand" href="index.html" aria-label="Back to Gleev"><img class="brand-mark" src="assets/logo.svg" alt="" width="26" height="26"><span class="brand-word">GLEEV</span></a>
+    <span class="secure">SECURE CHECKOUT</span>
+  </header>
+  <div class="preview-banner">Pre-launch preview: Gleev isn't on sale yet. Nothing is charged and card details are never stored or sent.</div>
+
+  <main id="checkout">
+    <div class="co-grid" id="co-grid">
+      <form class="co-form" id="co-form" autocomplete="off">
+        <h1>Checkout</h1>
+        <section class="co-section">
+          <h2>Contact</h2>
+          <div class="fields">
+            <label class="fld full">Email<input type="email" id="co-email" inputmode="email" autocomplete="email" placeholder="you@example.com" required></label>
+          </div>
+        </section>
+        <section class="co-section">
+          <h2>Delivery</h2>
+          <div class="fields">
+            <label class="fld">First name<input type="text" autocomplete="off" required></label>
+            <label class="fld">Last name<input type="text" autocomplete="off" required></label>
+            <label class="fld full">Address<input type="text" autocomplete="off" required></label>
+            <label class="fld">City<input type="text" autocomplete="off" required></label>
+            <label class="fld">Postcode<input type="text" autocomplete="off" required></label>
+            <label class="fld full">Country
+              <select autocomplete="off"><option>United Kingdom</option><option>Ireland</option><option>Other (EU)</option></select>
+            </label>
+          </div>
+        </section>
+        <section class="co-section">
+          <h2>Payment</h2>
+          <div class="fields">
+            <label class="fld full">Card number<input type="text" inputmode="numeric" autocomplete="off" placeholder="1234 1234 1234 1234" data-fake required></label>
+            <label class="fld">Expiry<input type="text" inputmode="numeric" autocomplete="off" placeholder="MM / YY" data-fake required></label>
+            <label class="fld">CVC<input type="text" inputmode="numeric" autocomplete="off" placeholder="123" data-fake required></label>
+          </div>
+          <p class="fineprint" style="text-align:left">Demo fields only. You can enter anything. Nothing is validated, stored or transmitted.</p>
+        </section>
+        <button class="btn" type="submit" id="place-order">Place order</button>
+        <p class="form-msg err" id="co-msg" role="alert"></p>
+      </form>
+
+      <aside class="summary" aria-label="Order summary">
+        <h2>Order summary</h2>
+        <div id="co-lines"></div>
+        <div class="sum" id="co-sum"></div>
+        <a class="link-btn" href="index.html#plans" style="align-self:flex-start">Change plan</a>
+      </aside>
+    </div>
+
+    <!-- Step 2: not available yet -->
+    <section class="waitlist" id="waitlist" aria-live="polite">
+      <div id="wl-form-view" style="display:flex;flex-direction:column;gap:18px;align-items:center;width:100%">
+        <h1>Gleev isn't available yet.</h1>
+        <p>We're not taking orders just yet, and you haven't been charged. Leave your email and we'll let you know the moment <span id="wl-plan">your plan</span> is ready.</p>
+        <form id="wl-form" data-klaviyo-form data-source="checkout_waitlist" data-success="You're on the list." novalidate>
+          <label class="fld">Email<input type="email" name="email" id="wl-email" inputmode="email" autocomplete="email" required></label>
+          <label class="consent"><input type="checkbox" name="consent" required><span>Email me when Gleev is available, and occasional updates. I can unsubscribe at any time. See the <a href="legal/privacy.html"><u>privacy policy</u></a>.</span></label>
+          <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn" type="submit">Notify me</button>
+          <p class="form-msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <div id="wl-done" style="display:none;flex-direction:column;gap:18px;align-items:center">
+        <div class="tick" aria-hidden="true">✓</div>
+        <h1>You're on the list.</h1>
+        <p>Thanks! We'll email <b id="wl-done-email"></b> as soon as Gleev is available. Your basket is saved.</p>
+        <a class="btn btn-inline" href="index.html">Back to Gleev</a>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/klaviyo.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>
