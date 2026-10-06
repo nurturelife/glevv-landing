@@ -76,7 +76,7 @@
         if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
         say('');
         var plan = window.GleevCart && window.GleevCart.summary();
-        subscribe(email, { source: form.dataset.source, properties: plan ? { plan: plan.planId, plan_name: plan.name } : {} })
+        subscribe(email, { source: form.dataset.source, properties: plan ? { plan: plan.planId, plan_name: plan.name, quantity: plan.qty, plan_total: plan.total } : {} })
           .then(function () {
             say(form.dataset.success || "Thanks! You're on the list.", 'ok');
             form.dispatchEvent(new CustomEvent('gleev:subscribed', { bubbles: true, detail: { email: email } }));
