@@ -61,6 +61,7 @@
 
   // Wire every <form data-klaviyo-form data-source="...">
   function bindForms() {
+    var boundAt = Date.now();
     document.querySelectorAll('form[data-klaviyo-form]').forEach(function (form) {
       var msg = form.querySelector('.form-msg');
       var btn = form.querySelector('button[type=submit]');
@@ -69,7 +70,9 @@
         ev.preventDefault();
         var email = (form.elements.email.value || '').trim();
         var consent = form.elements.consent;
-        if (form.elements.company && form.elements.company.value) return; // honeypot
+        // Spam traps: a filled honeypot, or a submit faster than a human could manage. Bots get a fake success.
+        var botLike = (form.elements.company && form.elements.company.value) || (Date.now() - boundAt < 2000);
+        if (botLike) { say(form.dataset.success || "Thanks! You're on the list.", 'ok'); return; }
         if (!validEmail(email)) { say('Please enter a valid email address.', 'err'); form.elements.email.focus(); return; }
         if (consent && !consent.checked) { say('Please tick the box to agree to receive emails.', 'err'); return; }
         var label = btn ? btn.textContent : '';

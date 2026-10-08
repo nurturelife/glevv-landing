@@ -5,7 +5,7 @@ Static pre-launch landing page for Gleev 360° Biome. Plain HTML, CSS and JS: no
 ```
 index.html        landing page
 checkout.html     fake checkout, then "not available yet" waitlist
-legal/            placeholder terms, privacy, delivery pages (needs real copy before launch)
+legal/            DRAFT terms and privacy pages (placeholders: search for "tbc" to find items to confirm)
 css/styles.css    all styling and responsive rules
 js/config.js      Klaviyo settings (edit this)
 js/data.js        plans and prices
