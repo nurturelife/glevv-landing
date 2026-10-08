@@ -123,7 +123,16 @@
     var top = $('#topbar'), bottom = $('#bottombar'), ben = $('[data-benefits]');
     var stages = $$('.stage', journey);
     var wide = window.matchMedia('(min-width:1040px)');
-    var ticking = false, last = {};
+    var ticking = false, last = {}, autoT = 0, autoStarted = false;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function applyT(t) {
+      if (Math.abs((last.t === undefined ? -1 : last.t) - t) <= 0.002) return;
+      journey.style.setProperty('--p', (12 + t * 76) + '%');
+      var idx = t < 0.33 ? 0 : t < 0.66 ? 1 : 2;
+      stages.forEach(function (st, i) { st.classList.toggle('is-on', i <= idx); });
+      last.t = t;
+    }
 
     function update() {
       ticking = false;
@@ -131,22 +140,40 @@
       var h = hero.getBoundingClientRect(), pl = plans.getBoundingClientRect(), s = sc.getBoundingClientRect();
       var showSticky = h.bottom < 0;
       var plansInView = pl.top < vh * 0.8 && pl.bottom > vh * 0.2;
-      var t = wide.matches ? Math.min(1, Math.max(0, -s.top / Math.max(1, s.height - vh))) : 1;
       if (last.sticky !== showSticky) { top.classList.toggle('is-on', showSticky); top.setAttribute('aria-hidden', !showSticky); $('.btn', top).tabIndex = showSticky ? 0 : -1; }
       var showBottom = showSticky && !plansInView;
       if (last.bottom !== showBottom) { bottom.classList.toggle('is-on', showBottom); }
-      if (Math.abs((last.t === undefined ? -1 : last.t) - t) > 0.005) {
-        var p = (12 + t * 76) + '%';
-        journey.style.setProperty('--p', p);
-        var idx = t < 0.33 ? 0 : t < 0.66 ? 1 : 2;
-        stages.forEach(function (st, i) { st.classList.toggle('is-on', i <= idx); });
-        last.t = t;
-      }
+      // Wide screens: capsule follows the scroll. Stacked screens: it animates by itself (see below).
+      applyT(wide.matches ? Math.min(1, Math.max(0, -s.top / Math.max(1, s.height - vh))) : autoT);
       last.sticky = showSticky; last.bottom = showBottom;
     }
     function req() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+
+    // Stacked layout: when the journey scrolls into view the capsule travels down on its own, once.
+    function runAuto() {
+      if (autoStarted) return;
+      autoStarted = true;
+      if (reduce) { autoT = 1; applyT(1); return; }
+      journey.classList.add('is-auto');
+      var t0 = null, dur = 2600;
+      (function step(now) {
+        if (t0 === null) t0 = now;
+        var k = Math.min(1, (now - t0) / dur);
+        autoT = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; // ease in-out
+        applyT(autoT);
+        if (k < 1) requestAnimationFrame(step); else journey.classList.remove('is-auto');
+      })(performance.now());
+    }
+    if ('IntersectionObserver' in window) {
+      var jo = new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting && !wide.matches) { runAuto(); jo.disconnect(); }
+      }, { threshold: 0.6 });
+      jo.observe(journey);
+    } else { autoT = 1; }
+
     window.addEventListener('scroll', req, { passive: true });
     window.addEventListener('resize', req);
+    wide.addEventListener('change', function () { last.t = undefined; req(); });
     update();
 
     // Benefits reveal once

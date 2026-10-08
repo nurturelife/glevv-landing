@@ -233,6 +233,7 @@ h2{font-weight:700;text-wrap:pretty;overflow-wrap:break-word}
 .capsule{position:absolute;left:50%;top:var(--p,12%);transform:translate(-50%,-50%) rotate(-18deg);width:56px;height:26px;border-radius:999px;background:linear-gradient(90deg,#F4F5F7 0 50%,#E6E8EC 50% 100%);box-shadow:0 8px 24px rgba(0,0,0,.35);transition:top .4s}
 .stage{display:flex;flex-direction:column;gap:6px;padding:clamp(18px,2vw,26px) 0;border-bottom:1px solid rgba(201,205,214,.2);opacity:.35;transition:opacity .4s;min-height:120px;justify-content:center}
 .stage.is-on{opacity:1}
+.journey.is-auto .capsule,.journey.is-auto .track-fill{transition:none}
 .stage b{font-size:clamp(22px,2.2vw,32px);font-weight:700;letter-spacing:.06em;line-height:1}
 .stage span{font-size:15px;line-height:1.4;color:var(--water);text-wrap:pretty;max-width:30ch}
 
@@ -410,7 +411,6 @@ h2{font-weight:700;text-wrap:pretty;overflow-wrap:break-word}
   .gallery{position:static}
   .deliver{min-height:0}
   .deliver-sticky{position:static;min-height:0}
-  .stage{opacity:1}
   .co-grid{grid-template-columns:minmax(0,1fr)}
   .summary{position:static;order:-1}
 }
@@ -439,6 +439,7 @@ h2{font-weight:700;text-wrap:pretty;overflow-wrap:break-word}
   .eco-node{position:static;transform:none;width:auto;align-items:flex-start;text-align:left}
   .eco-node span{font-size:13px}
   .step{padding-right:0}
+  .step:last-child .step-line span{opacity:1}
   .steps{grid-template-columns:minmax(0,1fr)}
   .mosaic-grid{gap:10px}
   .compare-in .crow{grid-template-columns:minmax(0,1.5fr) 76px 76px;gap:0 4px}
